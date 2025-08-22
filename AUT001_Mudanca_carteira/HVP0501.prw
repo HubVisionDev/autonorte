@@ -191,13 +191,8 @@ Return
 
 Static Function MenuDef()
 	Local aRotina := {}
-	Local cUsers := SuperGetMv("MV_HVP0501",,"000000")
 
-	IF RetCodUsr() $ cUsers
-		ADD OPTION aRotina TITLE "Alt. Vend" ACTION "U_HVP0501B()"	OPERATION MODEL_OPERATION_UPDATE ACCESS 0
-	Else
-		MsgInfo("Usuário sem permissão para alterações. Rotina ocultará o menu. Verifique o parâmetro MV_HVP0501!")
-	Endif
+	ADD OPTION aRotina TITLE "Alt. Vend" ACTION "U_HVP0501B()"	OPERATION MODEL_OPERATION_UPDATE ACCESS 0
 
 Return aRotina
 
@@ -206,12 +201,17 @@ User Function HVP0501B()
 	Local aPergs := {}
 	Local aRet 		:= {}
 	Local cVend 	:= Space(TamSX3("A3_COD")[1])
+	Local cUsers := SuperGetMv("MV_HVP0501",,"000000")
 	Private aItEnr := {}
 
-	aAdd( aPergs ,{1,"Novo Vendedor:  ",cVend,"@!",'.T.',"SA3",'.T.',80,.T.})
+	IF RetCodUsr() $ cUsers
+		aAdd( aPergs ,{1,"Novo Vendedor:  ",cVend,"@!",'.T.',"SA3",'.T.',80,.T.})
 
-	If ParamBox(aPergs ,"Parametros ",aRet)
-		MsAguarde({|| U_ProcVend(aRet)},"Ajustando clientes ... ",SM0->M0_FILIAL)
+		If ParamBox(aPergs ,"Parametros ",aRet)
+			MsAguarde({|| U_ProcVend(aRet)},"Ajustando clientes ... ",SM0->M0_FILIAL)
+		Endif
+	Else
+		MsgInfo("Usuário sem permissão para alterações. Verifique o parâmetro MV_HVP0501!")
 	Endif
 
 Return
@@ -277,7 +277,7 @@ User Function ProcVend(aRet)
 			SA3->(MsSeek(xFilial("SA3") + ZV2->ZV2_VANT ))
 
 			cCorpo += '		<td style="width: 30%; height: 14px; text-align: left;">' + SA3->A3_COD + " - " + Alltrim(SA3->A3_NOME) + '</td>'
-			
+
 			DbSelectArea("SA3")
 			SA3->(DbSetOrder(1))
 			SA3->(MsSeek(xFilial("SA3") + aRet[1] ))

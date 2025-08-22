@@ -122,7 +122,7 @@ Static Function HVP0502A(lJob)
 			While QRYTMP->(!eof())
 				//Verifica se a soma das vendas está abaixo da meta
 				//TODO: Verificar uma forma de melhorar desempenho
-				IF QRYTMP->(ZV2_VLMIN) < ZZ1->ZZ1_VLMIN
+				IF QRYTMP->(ZV2_VLMIN) < ZV1->ZV1_VLMIN
 					RecLock("ZV2",.T.)
 					For nI := 1 to ZV2->(fcount())
 						IF Alltrim(FieldName(nI)) <> "ZV2_USER"

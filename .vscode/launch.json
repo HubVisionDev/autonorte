@@ -2,6 +2,17 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"type": "totvs_language_web_debug",
+			"request": "launch",
+			"name": "Smart Client Web Debug",
+			"program": "${command:AskForProgramName}",
+			"cwb": "${workspaceFolder}",
+			"smartClientURL": "https://protheuscloud.autonorte.com.br:5302/",
+			"isMultiSession": true,
+			"enableTableSync": true,
+			"enableMultiThread": true
+		},
+		{
 			"type": "totvs_language_debug",
 			"request": "launch",
 			"name": "Depuração do idioma TOTVS",
@@ -13,6 +24,16 @@
 			"extendFeatures": {
 				"charDetails": false
 			}
+		}
+	],
+	"lastProgramExecuted": "SIGAMDI",
+	"lastProgramArguments": [],
+	"lastPrograms": [
+		{
+			"label": "SIGAMDI"
+		},
+		{
+			"label": "u_aaa"
 		}
 	]
 }
